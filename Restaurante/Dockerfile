@@ -1,12 +1,8 @@
-# Etapa de construcción
-FROM node:20 AS builder
+FROM node:20
 
 WORKDIR /app
 COPY . .
-RUN npm install && npm run build
+RUN npm install
 
-# Etapa de producción
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 8087
-CMD ["npm run dev -- --host"]
+CMD ["npm", "run", "dev", "--", "--host"]
