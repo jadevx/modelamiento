@@ -1,5 +1,5 @@
 import mathImage from "../../../assets/img/2084541.png";
-import { FaWaveSquare, FaInfinity, FaCalculator, FaProjectDiagram, FaLaptopCode } from "react-icons/fa";
+import { FaInfinity, FaCalculator, FaProjectDiagram, FaLaptopCode } from "react-icons/fa";
 
 export const Inicio = () => {
   return (
