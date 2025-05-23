@@ -32,6 +32,7 @@ export const Calculadora = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
+      console.log(res)
 
       if (!res.ok) throw new Error("Error en la respuesta del servidor");
 
