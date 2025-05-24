@@ -26,22 +26,41 @@ export const Calculadora = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://52.73.205.36:5001", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
-      console.log(res)
+  const urls = [
+    "http://52.73.205.36:5001",
+    "http://localhost:5001"
+  ];
 
-      if (!res.ok) throw new Error("Error en la respuesta del servidor");
+  const fetchData = async () => {
+    for (const url of urls) {
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
 
-      const data = await res.json();
-      setPuntos(data.puntos || []);
-    } catch (err) {
-      console.error("Error al enviar la solicitud:", err);
-      setPuntos([]);
+        if (!res.ok) throw new Error(`Servidor respondió con status ${res.status}`);
+
+        const data = await res.json();
+        setPuntos(data.puntos || []);
+        return;
+
+      } catch (err) {
+        if (err instanceof Error) {
+          console.warn(`Fallo al conectar con ${url}:`, err.message);
+        } else {
+          console.warn(`Fallo al conectar con ${url}:`, err);
+        }
+      }
     }
+
+    console.error("Todas las URLs fallaron");
+    setPuntos([]);
+  };
+
+  fetchData();
+
   };
 
   return (

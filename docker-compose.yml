@@ -1,16 +1,22 @@
 version: '3.8'
 
 services:
-  frontend:
-    build:
-      context: ./edo_euler
-    ports:
-      - "8087:8087"
-    depends_on:
-      - backend
-
   backend:
     build:
+      context: ./edo_euler
+      dockerfile: Dockerfile
+    container_name: modelamiento-backend
+    ports:
+      - "8087:80"
+    depends_on:
+      - backend
+    restart: always
+
+  frontend:
+    build:
       context: ./Restaurante
+      dockerfile: Dockerfile
+    container_name: modelamiento-frontend
     ports:
       - "5001:5001"
+    restart: always
