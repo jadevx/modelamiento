@@ -27,9 +27,10 @@ export const Calculadora = () => {
     e.preventDefault();
 
   const urls = [
+    "http://52.73.205.36:5001",
     "http://modelamiento-backend:5001",
     "http://modelamiento-backend-1:5001",
-    "http://localhost:5001"
+    "http://localhost:5001",
   ];
 
   const fetchData = async () => {
@@ -44,7 +45,7 @@ export const Calculadora = () => {
         });
          
         console.log(res)
-        
+
         if (!res.ok) throw new Error(`Servidor respondió con status ${res.status}`);
 
         const data = await res.json();
