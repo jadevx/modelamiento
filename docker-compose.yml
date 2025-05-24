@@ -7,9 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: modelamiento-backend
     ports:
-      - "8087:80"
-    depends_on:
-      - backend
+      - "5001:5001"
     restart: always
 
   frontend:
@@ -18,5 +16,7 @@ services:
       dockerfile: Dockerfile
     container_name: modelamiento-frontend
     ports:
-      - "5001:5001"
+      - "8087:80"
+    depends_on:
+      - backend
     restart: always

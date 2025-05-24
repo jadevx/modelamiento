@@ -1,12 +1,19 @@
-# Find the latest digests at https://hub.docker.com/_/node and https://hub.docker.com/_/nginx
-
-FROM node:20@sha256:6e6e8b6e7e2d3e1b2e7e2e6e8b6e7e2d3e1b2e7e2e6e8b6e7e2d3e1b2e7e2e6e AS builder
-
+FROM node:18-alpine AS build
 WORKDIR /app
-COPY . .
-RUN npm install && npm run build
 
-FROM nginx:alpine@sha256:7e7e8b6e7e2d3e1b2e7e2e6e8b6e7e2d3e1b2e7e2e6e8b6e7e2d3e1b2e7e2e6e
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Install dependencies
+COPY package*.json ./
+RUN npm ci
+
+# Copy source and build
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+# Copy built assets
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80 for Nginx
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
